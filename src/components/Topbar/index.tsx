@@ -5,7 +5,7 @@ import Button from "@/components/common/Button/Button";
 import styles from "./Topbar.module.scss";
 
 export default function index() {
-  let session = useFetchSession();
+  let { session } = useFetchSession();
   return (
     <div className={styles.authBtn}>
       {session ? (

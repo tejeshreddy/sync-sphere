@@ -5,22 +5,30 @@ import { fileUpload } from "@/API/FileUpload";
 import CommonProgress from "../common/Progress/Progress";
 import { eventNames } from "process";
 import { addFolder } from "@/API/Firestore";
+import useFetchSession from "../hooks/useSession";
 
-export default function UploadFiles() {
+export default function UploadFiles({ parentId }: FolderStructure) {
   const [isFileVisible, setFileVisible] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isFolderVisible, setFolderVisible] = useState(false);
   const [folderName, setFolderName] = useState("");
-
+  let session = useFetchSession() as any;
   const uploadFile = (event: ChangeEvent<HTMLInputElement>) => {
     console.log(event);
     let file = event.target.files?.[0];
-    fileUpload(file, setProgress);
+    fileUpload(file, setProgress, parentId, session?.user.email as string);
   };
 
   const uploadFolder = () => {
-    let payLoad = { folderName: folderName, isFolder: true, fileList: [] };
+    let payLoad = {
+      folderName: folderName,
+      isFolder: true,
+      fileList: [],
+      parentId: parentId || "",
+      userEmail: session?.user?.email,
+    };
     addFolder(payLoad);
+    setFolderName("");
   };
 
   return (
@@ -28,7 +36,10 @@ export default function UploadFiles() {
       <Button
         title="Add a File"
         btnClass="btn-success"
-        onClick={() => setFileVisible(!isFileVisible)}
+        onClick={() => {
+          setFolderVisible(false);
+          setFileVisible(!isFileVisible);
+        }}
       />
       {isFileVisible ? (
         <input
@@ -43,7 +54,10 @@ export default function UploadFiles() {
       <Button
         title="Create a Folder"
         btnClass="btn-success"
-        onClick={() => setFolderVisible(!isFolderVisible)}
+        onClick={() => {
+          setFileVisible(false);
+          setFolderVisible(!isFolderVisible);
+        }}
       />
 
       {isFolderVisible ? (

@@ -7,8 +7,8 @@ export default function HomeComponent() {
   return (
     <div>
       <Topbar />
-      <UploadFiles />
-      <ShowFiles />
+      <UploadFiles parentId="" />
+      <ShowFiles parentId="" />
     </div>
   );
 }

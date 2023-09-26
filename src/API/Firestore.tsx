@@ -3,28 +3,29 @@ import { collection, addDoc } from "firebase/firestore";
 
 let files = collection(database, "files");
 
-export const addFile = (imageLink: string, imageName: string) => {
+export const addFile = (
+  imageLink: string,
+  imageName: string,
+  parentId: string,
+  userEmail: string,
+) => {
   try {
     addDoc(files, {
       imageLink: imageLink,
       imageName: imageName,
       isFolder: false,
+      parentId: parentId,
+      userEmail: userEmail,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const addFolder = (payLoad: {
-  folderName: string;
-  isFolder: boolean;
-  fileList: object;
-}) => {
+export const addFolder = (payLoad: {}) => {
   try {
     addDoc(files, {
-      folderName: payLoad.folderName,
-      isFolder: payLoad.isFolder,
-      fileList: payLoad.fileList,
+      ...payLoad,
     });
   } catch (error) {
     console.log(error);

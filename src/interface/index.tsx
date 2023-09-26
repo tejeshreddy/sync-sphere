@@ -16,3 +16,7 @@ interface Progress {
 interface ArrayType {
   map: Function;
 }
+
+interface FolderStructure {
+  parentId: string;
+}
