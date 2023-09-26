@@ -8,3 +8,11 @@ interface GithubAuth {
   clientId: string;
   clientSecret: string;
 }
+
+interface Progress {
+  progress: number;
+}
+
+interface ArrayType {
+  map: Function;
+}
